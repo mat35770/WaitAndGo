@@ -2,20 +2,18 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Crear tarea"
-        android:id="@+id/add_task"
+    <item
+        android:title="nav_valid"
+        android:id="@+id/nav_valid"
+        android:icon="@drawable/ic_done"
         android:showAsAction="always"
-        android:checkable="false"
-        app:showAsAction="always" />
+        android:visible="true" />
     <item
         android:id="@+id/nav_back"
         android:title="nav_back"
         android:icon="@drawable/ic_arrow_back"
         android:showAsAction="always"
-        app:showAsAction="always" />
-    <item
-        android:title="nav_valid"
-        android:id="@+id/nav_valid"
-        android:icon="@drawable/ic_done"
-        android:showAsAction="always" />
+        app:showAsAction="always"
+        android:layout_gravity="left"
+        android:visible="true" />
 </menu>

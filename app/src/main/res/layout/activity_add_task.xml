@@ -31,6 +31,7 @@
         android:hint="Categoria" />
 
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,8 +46,9 @@
             tools:text="Compartir con" />
 
         <Spinner
-            android:layout_width="244dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:id="@+id/spinner_compartir" />
 
     </LinearLayout>
@@ -58,6 +60,7 @@
         android:id="@+id/progressBar7" />
 
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
