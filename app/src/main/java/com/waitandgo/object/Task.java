@@ -1,6 +1,4 @@
-package com.example.mathieu.waitandgo;
-
-import java.util.ArrayList;
+package com.waitandgo.object;
 
 /**
  * Created by Mathieu on 30/08/2016.

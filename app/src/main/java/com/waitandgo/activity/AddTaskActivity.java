@@ -1,14 +1,12 @@
-package com.example.mathieu.waitandgo;
+package com.waitandgo.activity;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ButtonBarLayout;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+
+import com.example.mathieu.waitandgo.R;
 
 /**
  * Created by Mathieu on 29/08/2016.
