@@ -22,7 +22,7 @@ public class TaskDAO {
     public static final String TASK_PREREQUISITE = "taskPrerequisite";
     public static final String DESCRIPTION = "description";
 
-    public static final String TASK_TABLE_CREATE = "CREATE TABLE" + TASK_TABLE_NAME + "(" + KEY +
+    public static final String TASK_TABLE_CREATE = "CREATE TABLE " + TASK_TABLE_NAME + "(" + KEY +
             " INTEGER PRIMARY KEY AUTOINCREMENT, " + TITLE + " TEXT, " + CATEGORY + " TEXT, " +
             SHARE_WITH + " TEXT, " + TASK_PREREQUISITE + " TEXT, " + DESCRIPTION + " TEXT);";
 
