@@ -1,6 +1,7 @@
 package com.waitandgo.activity;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -9,12 +10,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.mathieu.waitandgo.R;
+import com.waitandgo.database.TaskDAO;
 
 /**
  * Created by Mathieu on 29/08/2016.
  */
 
 public class AddTaskActivity extends AppCompatActivity {
+
+    private TaskDAO taskDAO;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -43,8 +47,10 @@ public class AddTaskActivity extends AppCompatActivity {
             return true;
         }
         else if (id == R.id.nav_valid){
-
-
+            taskDAO = new TaskDAO(this);
+            taskDAO.open();
+            taskDAO.createTask("pan","comer","Aldo","clase","Pan a Valparaiso");
+            //db.deleteTask("pan");
             Intent intent = new Intent(AddTaskActivity.this,MainActivity.class);
             startActivity(intent);
             return true;

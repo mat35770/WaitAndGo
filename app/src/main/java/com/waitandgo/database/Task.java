@@ -11,6 +11,7 @@ public class Task {
     private String category;
     private String shareWith;
     private Task taskPrerequisite;
+    private String description;
 
     /**
      * Builder of an object task
@@ -20,12 +21,18 @@ public class Task {
      * @param shareWith Person to share the task
      * @param taskPrerequisite Task prerequisite
      */
-    public Task(long id, String title, String category, String shareWith, Task taskPrerequisite){
+    public Task(long id, String title, String category, String shareWith, Task taskPrerequisite,
+                String description){
         this.id=id;
         this.title=title;
         this.category=category;
         this.shareWith=shareWith;
         this.taskPrerequisite=taskPrerequisite;
+        this.description=description;
+    }
+
+    public String getTitle(){
+        return this.title;
     }
 
 }
