@@ -3,8 +3,6 @@ package com.waitandgo.database;
 
 import android.content.Context;
 
-import com.waitandgo.database.DAOBase;
-
 /**
  * Created by Mathieu on 30/08/2016.
  */
@@ -26,4 +24,7 @@ public class TaskDAO extends DAOBase {
     public TaskDAO(Context pContext) {
         super(pContext);
     }
+
+    /**public Task createTask (String title, String category, String shareWith, Task taskPrerequisite){
+        }*/
 }

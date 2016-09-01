@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.example.mathieu.waitandgo.R;
 
@@ -22,6 +24,7 @@ public class AddTaskActivity extends AppCompatActivity {
         android.support.v7.widget.Toolbar toolbar_task = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar_task);
         setSupportActionBar(toolbar_task);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -40,6 +43,10 @@ public class AddTaskActivity extends AppCompatActivity {
             return true;
         }
         else if (id == R.id.nav_valid){
+
+
+            Intent intent = new Intent(AddTaskActivity.this,MainActivity.class);
+            startActivity(intent);
             return true;
         }
 
