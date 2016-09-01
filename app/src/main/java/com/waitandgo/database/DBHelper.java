@@ -11,10 +11,13 @@ import static com.waitandgo.database.TaskDAO.TASK_TABLE_DROP;
  * Created by Mathieu on 30/08/2016.
  */
 
-public class DatabaseHandler extends SQLiteOpenHelper {
+public class DBHelper extends SQLiteOpenHelper {
 
-    public DatabaseHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    public final static int DATABASE_VERSION = 1;
+    public final static String DATABASE_NAME = "database.db";
+
+    public DBHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
