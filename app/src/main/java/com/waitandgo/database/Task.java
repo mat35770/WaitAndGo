@@ -10,20 +10,18 @@ public class Task {
     private String title;
     private String category;
     private String shareWith;
-    private Task taskPrerequisite;
+    private String taskPrerequisite;
     private String description;
 
     /**
      * Builder of an object task
-     * @param id Object id
      * @param title Title of the task
      * @param category Category of the task
      * @param shareWith Person to share the task
      * @param taskPrerequisite Task prerequisite
      */
-    public Task(long id, String title, String category, String shareWith, Task taskPrerequisite,
+    public Task(String title, String category, String shareWith, String taskPrerequisite,
                 String description){
-        this.id=id;
         this.title=title;
         this.category=category;
         this.shareWith=shareWith;
@@ -31,8 +29,56 @@ public class Task {
         this.description=description;
     }
 
-    public String getTitle(){
-        return this.title;
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getShareWith() {
+        return shareWith;
+    }
+
+    public void setShareWith(String shareWith) {
+        this.shareWith = shareWith;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getTaskPrerequisite() {
+        return taskPrerequisite;
+    }
+
+    public void setTaskPrerequisite(String taskPrerequisite) {
+        this.taskPrerequisite = taskPrerequisite;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String toString(){
+        return this.getTitle();
     }
 
 }

@@ -3,8 +3,12 @@ package com.waitandgo.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.icu.text.StringSearch;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.waitandgo.database.DBHelper.DATABASE_NAME;
 import static com.waitandgo.database.DBHelper.DATABASE_VERSION;
@@ -28,6 +32,8 @@ public class TaskDAO {
 
     public static final String TASK_TABLE_DROP = "DROP TABLE IF EXISTS " + TASK_TABLE_NAME + ";";
 
+    private String[] allColumns = {KEY,TITLE,CATEGORY,SHARE_WITH,TASK_PREREQUISITE,DESCRIPTION};
+
     protected DBHelper dBHelper = null;
     protected SQLiteDatabase mDb = null;
 
@@ -47,23 +53,33 @@ public class TaskDAO {
         return this.mDb;
     }
 
-    public void createTask (String title, String category, String shareWith, String taskPrerequisite,
-                            String description){
+    public void createTask (Task task){
         ContentValues values = new ContentValues();
-        values.put(TITLE, title);
-        values.put(CATEGORY, category);
-        values.put(SHARE_WITH,shareWith);
-        values.put(TASK_PREREQUISITE,taskPrerequisite);
-        values.put(DESCRIPTION,description);
+        values.put(TITLE, task.getTitle());
+        values.put(CATEGORY, task.getCategory());
+        values.put(SHARE_WITH,task.getShareWith());
+        values.put(TASK_PREREQUISITE,task.getTaskPrerequisite());
+        values.put(DESCRIPTION,task.getDescription());
         long insertId = mDb.insert(TASK_TABLE_NAME,null,values);
-
-       /* this.mDb.execSQL("INSERT INTO " + TASK_TABLE_NAME + "(" + TITLE + ", " + CATEGORY + ", " +
-                SHARE_WITH + ", " + TASK_PREREQUISITE + ", " + DESCRIPTION + ") VALUES (" + title +
-                ", " + category +", " + shareWith + ", " + taskPrerequisite + ", " + description + ");");*/
     }
 
     public void deleteTask (Task task){
         String[] selectionArgs = { task.getTitle()};
         this.mDb.delete(TASK_TABLE_NAME, TITLE + " = ?",selectionArgs);
+    }
+
+    public ArrayList<Task> getAllTasks(){
+        ArrayList<Task> tasks = new ArrayList<Task>();
+        Cursor cursor = mDb.query(TASK_TABLE_NAME,allColumns, null, null, null, null, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Task task = new Task(cursor.getString(1), cursor.getString(2),
+                    cursor.getString(3), cursor.getString(4), cursor.getString(5));
+            task.setId(cursor.getInt(0));
+            tasks.add(task);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return tasks;
     }
 }

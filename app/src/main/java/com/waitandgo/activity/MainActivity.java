@@ -17,12 +17,17 @@ import android.widget.ListView;
 
 import com.example.mathieu.waitandgo.R;
 import com.waitandgo.database.DBHelper;
+import com.waitandgo.database.Task;
 import com.waitandgo.database.TaskDAO;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    String[] tasks = {"comprar pan", "comprar cerveza"};
+    //String[] tasks = {"comprar pan", "comprar cerveza"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +55,12 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.task_list,tasks);
+        //display tasks stored in database
+        TaskDAO taskDAO = new TaskDAO(this);
+        taskDAO.open();
+        ArrayList<Task> tasks =  taskDAO.getAllTasks();
+        ArrayAdapter<Task> adapter = new ArrayAdapter<Task>(this,R.layout.task_list,tasks);
         ListView listView = (ListView) findViewById(R.id.listViewTask);
-
         listView.setAdapter(adapter);
     }
 

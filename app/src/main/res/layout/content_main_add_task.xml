@@ -53,7 +53,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:id="@+id/spinner_compartir" />
+                android:id="@+id/spinner_compartir"
+                android:entries="@array/shareWith"/>
 
         </LinearLayout>
 
@@ -80,7 +81,8 @@
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinner_prerrequisito" />
+                android:id="@+id/spinner_prerrequisito"
+                android:entries="@array/prerequisite"/>
 
         </LinearLayout>
 
