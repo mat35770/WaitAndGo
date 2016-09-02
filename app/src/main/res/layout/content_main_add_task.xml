@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:id="@+id/spinner_compartir"
-                android:entries="@array/shareWith"/>
+                android:entries="@array/shareWith" />
 
         </LinearLayout>
 

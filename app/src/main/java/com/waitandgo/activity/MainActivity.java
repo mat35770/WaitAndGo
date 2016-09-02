@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.mathieu.waitandgo.R;
 import com.waitandgo.database.DBHelper;
@@ -27,7 +28,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    //String[] tasks = {"comprar pan", "comprar cerveza"};
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +61,10 @@ public class MainActivity extends AppCompatActivity
         taskDAO.open();
         ArrayList<Task> tasks =  taskDAO.getAllTasks();
         ArrayAdapter<Task> adapter = new ArrayAdapter<Task>(this,R.layout.task_list,tasks);
-        ListView listView = (ListView) findViewById(R.id.listViewTask);
+        listView = (ListView) findViewById(R.id.listViewTask);
         listView.setAdapter(adapter);
     }
-
+    
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
