@@ -74,7 +74,6 @@ public class AddTaskActivity extends AppCompatActivity {
                 taskDAO.open();
                 Task task = new Task(title,category,shareWith,prerequisite,description);
                 taskDAO.createTask(task);
-                //taskDAO.deleteTask(task);
                 Intent intent = new Intent(AddTaskActivity.this,MainActivity.class);
                 startActivity(intent);
             }

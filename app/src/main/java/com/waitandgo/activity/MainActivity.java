@@ -129,20 +129,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        TaskDAO taskDAO = new TaskDAO(this);
-
-        //display a message in console
-        Log.i("Hello list view", "You click on item " + id + " at position " + position);
-
 
         for (Iterator<Task> it = tasks.iterator(); it.hasNext();){
             Task itg = (Task) it.next();
-            if (itg.getId() == id+1){
-                //taskDAO.deleteTask(itg);
-                Log.i("Hello list view","title " + itg.getTitle());
-                Log.i("Hello list view","suppr");
+            if (itg == (Task) adapterView.getItemAtPosition(position)){
+                TaskDAO taskDAO = new TaskDAO(this);
+                taskDAO.open();
+                taskDAO.deleteTask(itg);
             }
         }
-
     }
 }

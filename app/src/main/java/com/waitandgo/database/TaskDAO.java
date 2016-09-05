@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.icu.text.StringSearch;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +62,7 @@ public class TaskDAO {
         values.put(TASK_PREREQUISITE,task.getTaskPrerequisite());
         values.put(DESCRIPTION,task.getDescription());
         long insertId = mDb.insert(TASK_TABLE_NAME,null,values);
+        task.setId(insertId);
     }
 
     public void deleteTask (Task task){
