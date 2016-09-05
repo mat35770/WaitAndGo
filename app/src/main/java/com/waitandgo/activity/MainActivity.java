@@ -3,6 +3,7 @@ package com.waitandgo.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -23,12 +25,14 @@ import com.waitandgo.database.TaskDAO;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener {
 
     private ListView listView;
+    private ArrayList<Task> tasks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +63,14 @@ public class MainActivity extends AppCompatActivity
         //display tasks stored in database
         TaskDAO taskDAO = new TaskDAO(this);
         taskDAO.open();
-        ArrayList<Task> tasks =  taskDAO.getAllTasks();
+        tasks =  taskDAO.getAllTasks();
         ArrayAdapter<Task> adapter = new ArrayAdapter<Task>(this,R.layout.task_list,tasks);
         listView = (ListView) findViewById(R.id.listViewTask);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(this);
     }
-    
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -119,5 +125,24 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        TaskDAO taskDAO = new TaskDAO(this);
+
+        //display a message in console
+        Log.i("Hello list view", "You click on item " + id + " at position " + position);
+
+
+        for (Iterator<Task> it = tasks.iterator(); it.hasNext();){
+            Task itg = (Task) it.next();
+            if (itg.getId() == id+1){
+                //taskDAO.deleteTask(itg);
+                Log.i("Hello list view","title " + itg.getTitle());
+                Log.i("Hello list view","suppr");
+            }
+        }
+
     }
 }
