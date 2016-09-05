@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity
         TaskDAO taskDAO = new TaskDAO(this);
         taskDAO.open();
         tasks =  taskDAO.getAllTasks();
-        ArrayAdapter<Task> adapter = new ArrayAdapter<Task>(this,R.layout.task_list,tasks);
+        ArrayAdapter<Task> adapter = new ArrayAdapter<Task>(this,R.layout.task_list,R.id.labelTask,tasks);
         listView = (ListView) findViewById(R.id.listViewTask);
         listView.setAdapter(adapter);
 
@@ -128,8 +128,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    /**
+     * If an item is clicked it is deleted from the database
+     */
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-
         for (Iterator<Task> it = tasks.iterator(); it.hasNext();){
             Task itg = (Task) it.next();
             if (itg == (Task) adapterView.getItemAtPosition(position)){
