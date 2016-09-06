@@ -56,14 +56,13 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //display tasks stored in database
+        //display tasks stored in database and active listener
         TaskDAO taskDAO = new TaskDAO(this);
         taskDAO.open();
         tasks =  taskDAO.getAllTasks();
         adapter = new ArrayAdapter<Task>(this,R.layout.task_list,R.id.labelTask,tasks);
         listView = (ListView) findViewById(R.id.listViewTask);
         listView.setAdapter(adapter);
-
         listView.setOnItemClickListener(this);
     }
 
