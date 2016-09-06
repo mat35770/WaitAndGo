@@ -1,18 +1,12 @@
-package com.waitandgo.database;
+package com.waitandgo.model;
 
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.icu.text.StringSearch;
-import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import static com.waitandgo.database.DBHelper.DATABASE_NAME;
-import static com.waitandgo.database.DBHelper.DATABASE_VERSION;
 
 /**
  * Created by Mathieu on 30/08/2016.

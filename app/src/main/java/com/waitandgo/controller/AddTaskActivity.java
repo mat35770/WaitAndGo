@@ -1,20 +1,17 @@
-package com.waitandgo.activity;
+package com.waitandgo.controller;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.mathieu.waitandgo.R;
-import com.waitandgo.database.Task;
-import com.waitandgo.database.TaskDAO;
+import com.waitandgo.model.Task;
+import com.waitandgo.model.TaskDAO;
 
 /**
  * Created by Mathieu on 29/08/2016.

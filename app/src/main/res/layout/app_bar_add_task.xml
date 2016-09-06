@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fitsSystemWindows="true"
-    tools:context="com.waitandgo.activity.AddTaskActivity">
+    tools:context="com.waitandgo.controller.AddTaskActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

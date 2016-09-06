@@ -1,9 +1,8 @@
-package com.waitandgo.activity;
+package com.waitandgo.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,19 +14,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.mathieu.waitandgo.R;
-import com.waitandgo.database.DBHelper;
-import com.waitandgo.database.Task;
-import com.waitandgo.database.TaskDAO;
+import com.waitandgo.model.Task;
+import com.waitandgo.model.TaskDAO;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener {
@@ -132,6 +126,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     /**
      * If an item is clicked it is deleted from the database
+     * It is also removed from the ArrayList "tasks" and the view is refreshed
      */
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         for (Iterator<Task> it = tasks.iterator(); it.hasNext();){
@@ -140,12 +135,8 @@ public class MainActivity extends AppCompatActivity
                 TaskDAO taskDAO = new TaskDAO(this);
                 taskDAO.open();
                 taskDAO.deleteTask(itg);
-
-                /* No fonctiona refresh
-                listView.setAdapter(adapter);
+                tasks.remove(itg);
                 adapter.notifyDataSetChanged();
-                listView.refreshDrawableState();
-                listView.invalidateViews();*/
             }
         }
     }

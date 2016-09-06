@@ -1,11 +1,11 @@
-package com.waitandgo.database;
+package com.waitandgo.model;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import static com.waitandgo.database.TaskDAO.TASK_TABLE_CREATE;
-import static com.waitandgo.database.TaskDAO.TASK_TABLE_DROP;
+import static com.waitandgo.model.TaskDAO.TASK_TABLE_CREATE;
+import static com.waitandgo.model.TaskDAO.TASK_TABLE_DROP;
 
 /**
  * Created by Mathieu on 30/08/2016.

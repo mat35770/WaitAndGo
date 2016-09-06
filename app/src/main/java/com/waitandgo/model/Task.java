@@ -1,4 +1,4 @@
-package com.waitandgo.database;
+package com.waitandgo.model;
 
 /**
  * Created by Mathieu on 30/08/2016.

@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.waitandgo.activity.MainActivity"
+            android:name="com.waitandgo.controller.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.waitandgo.activity.AddTaskActivity"
+            android:name="com.waitandgo.controller.AddTaskActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
     </application>
