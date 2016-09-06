@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity
 
     private ListView listView;
     private ArrayList<Task> tasks;
+    ArrayAdapter<Task> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity
         TaskDAO taskDAO = new TaskDAO(this);
         taskDAO.open();
         tasks =  taskDAO.getAllTasks();
-        ArrayAdapter<Task> adapter = new ArrayAdapter<Task>(this,R.layout.task_list,R.id.labelTask,tasks);
+        adapter = new ArrayAdapter<Task>(this,R.layout.task_list,R.id.labelTask,tasks);
         listView = (ListView) findViewById(R.id.listViewTask);
         listView.setAdapter(adapter);
 
@@ -138,6 +140,12 @@ public class MainActivity extends AppCompatActivity
                 TaskDAO taskDAO = new TaskDAO(this);
                 taskDAO.open();
                 taskDAO.deleteTask(itg);
+
+                /* No fonctiona refresh
+                listView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+                listView.refreshDrawableState();
+                listView.invalidateViews();*/
             }
         }
     }
