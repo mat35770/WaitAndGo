@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.mathieu.waitandgo.R;
+import com.waitandgo.model.MyArrayAdapter;
 import com.waitandgo.model.Task;
 import com.waitandgo.model.TaskDAO;
 
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity
 
     private ListView listView;
     private ArrayList<Task> tasks;
-    ArrayAdapter<Task> adapter;
+    MyArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity
         TaskDAO taskDAO = new TaskDAO(this);
         taskDAO.open();
         tasks =  taskDAO.getAllTasks();
-        adapter = new ArrayAdapter<Task>(this,R.layout.task_list,R.id.labelTask,tasks);
+        adapter = new MyArrayAdapter(this,tasks);
         listView = (ListView) findViewById(R.id.listViewTask);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);

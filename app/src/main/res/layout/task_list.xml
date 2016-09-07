@@ -9,18 +9,33 @@
         android:id="@+id/imageTask"
         android:layout_width="30sp"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_person"
+        android:src="@drawable/ic_group"
         android:layout_gravity="center_vertical"/>
 
-    <TextView
-        android:id="@+id/labelTask"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1"
         android:padding="10dp"
-        android:layout_gravity="center"
-        android:textSize="16sp"
-        android:layout_weight="1">
-    </TextView>
+        android:layout_gravity="center">
+
+        <TextView
+            android:id="@+id/labelTaskTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:textSize="16sp"
+            />
+
+        <TextView
+            android:id="@+id/labelTaskDescription"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"/>
+
+    </LinearLayout>
 
     <ImageView
         android:layout_width="40sp"
