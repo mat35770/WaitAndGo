@@ -3,6 +3,7 @@ package com.waitandgo.controller;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity
     private ListView listView;
     private ArrayList<Task> tasks;
     MyArrayAdapter adapter;
+    TaskDAO taskDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //display tasks stored in database and active listener
-        TaskDAO taskDAO = new TaskDAO(this);
+        taskDAO = new TaskDAO(this);
         taskDAO.open();
         tasks =  taskDAO.getAllTasks();
         adapter = new MyArrayAdapter(this,tasks);
@@ -132,7 +134,6 @@ public class MainActivity extends AppCompatActivity
         for (Iterator<Task> it = tasks.iterator(); it.hasNext();){
             Task itg = (Task) it.next();
             if (itg == (Task) adapterView.getItemAtPosition(position)){
-                TaskDAO taskDAO = new TaskDAO(this);
                 taskDAO.open();
                 taskDAO.deleteTask(itg);
                 tasks.remove(itg);

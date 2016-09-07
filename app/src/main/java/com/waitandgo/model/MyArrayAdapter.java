@@ -1,6 +1,8 @@
 package com.waitandgo.model;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +44,16 @@ public class MyArrayAdapter extends ArrayAdapter {
         if (tasks.get(position).getShareWith().equals("Nadie")){
             imageView.setImageResource(R.drawable.ic_person);
         }
+
+        //Color change with the category
+        switch (tasks.get(position).getCategory()){
+            case "perso" :
+                rowView.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.colorGreenTaskAlpha));
+                break;
+            case "trabajo" :
+                rowView.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.colorGreenTask2Alpha));
+                break;
+            }
 
         return rowView;
     }

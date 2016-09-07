@@ -1,11 +1,14 @@
 package com.waitandgo.controller;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -29,6 +32,13 @@ public class AddTaskActivity extends AppCompatActivity {
         android.support.v7.widget.Toolbar toolbar_task = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar_task);
         setSupportActionBar(toolbar_task);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        ProgressBar progressBar7 = (ProgressBar) findViewById(R.id.progressBar7);
+        progressBar7.getProgressDrawable().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN);
+
+        ProgressBar progressBar8 = (ProgressBar) findViewById(R.id.progressBar8);
+        progressBar8.getProgressDrawable().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN);
+
 
     }
     @Override

@@ -36,6 +36,7 @@
 
         <LinearLayout
             android:layout_marginTop="10dp"
+            android:layout_marginLeft="4dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,11 +44,11 @@
 
             <TextView
                 android:text="Compartir con"
-                android:layout_width="wrap_content"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView_compartir"
                 android:layout_weight="1"
-                tools:text="Compartir con" />
+                android:textSize="18sp"/>
 
             <Spinner
                 android:layout_width="wrap_content"
@@ -61,22 +62,24 @@
         <ProgressBar
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/progressBar7" />
+            android:layout_height="4dp"
+            android:id="@+id/progressBar7"
+            android:layout_marginLeft="4dp"/>
 
         <LinearLayout
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="4dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="5">
 
             <TextView
-                android:layout_width="140dp"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView_prerrequisito"
-                tools:text="Prerrequisito"
-                android:text="Prerrequisito" />
+                android:text="Prerrequisito"
+                android:textSize="18sp"/>
 
             <Spinner
                 android:layout_width="match_parent"
@@ -89,16 +92,17 @@
         <ProgressBar
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/progressBar8" />
+            android:layout_height="4dp"
+            android:id="@+id/progressBar8"
+            android:layout_marginLeft="4dp"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text|textPersonName"
+            android:inputType="textMultiLine"
             android:id="@+id/input_text_description"
-            android:layout_weight="40"
-            android:hint="Descripcion" />
+            android:hint="Descripcion"
+            android:lines="3"/>
 
     </LinearLayout>
 </RelativeLayout>

@@ -16,7 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/colorGreenPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
@@ -31,6 +31,6 @@
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_input_add"
         android:tint="@android:color/white"
-        app:backgroundTint="@color/colorPrimary" />
+        app:backgroundTint="@color/colorGreenDark"/>
 
 </android.support.design.widget.CoordinatorLayout>

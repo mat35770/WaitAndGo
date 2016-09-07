@@ -3,4 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorGreenDark">#016c57</color>
+    <color name="colorGreenPrimary">#08ae9e</color>
+    <color name="colorGreenTask">#c6e9e5</color>
+    <color name="colorGreenTaskAlpha">#FFC6E9E5</color>
+    <color name="colorGreenTask2Alpha">#FF97D7CF</color>
+    <color name="colorGreenTask3Alpha">#FFE4EAFD</color>
+    <color name="colorPinkDarkAlpha">#FFA8BAF9</color>
 </resources>
