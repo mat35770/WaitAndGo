@@ -105,10 +105,10 @@
             android:id="@+id/input_text_description"
             android:hint="Descripcion"
             android:lines="3" />
-        <TextView
-            android:id="@+id/random_text"
+        <Button
+            android:id="@+id/delete_task_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="sjdahaskjdhaskjdh"/>
+            android:text="Eliminar tarea"/>
     </LinearLayout>
 </RelativeLayout>
