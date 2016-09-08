@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -33,14 +35,20 @@ public class AddTaskActivity extends AppCompatActivity {
         setSupportActionBar(toolbar_task);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        // Put in black the progress bars
         ProgressBar progressBar7 = (ProgressBar) findViewById(R.id.progressBar7);
         progressBar7.getProgressDrawable().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN);
-
         ProgressBar progressBar8 = (ProgressBar) findViewById(R.id.progressBar8);
         progressBar8.getProgressDrawable().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN);
 
-
+        // Autocompletion for the category
+        AutoCompleteTextView textViewCategory = (AutoCompleteTextView) findViewById(R.id.input_text_category);
+        String[] category = getResources().getStringArray(R.array.category);
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, category);
+        textViewCategory.setAdapter(adapter);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
