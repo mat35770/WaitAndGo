@@ -21,6 +21,9 @@
         <activity
             android:name="com.waitandgo.controller.AddTaskActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name="com.waitandgo.controller.EditTaskActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
     </application>
 
