@@ -134,9 +134,26 @@ public class MainActivity extends AppCompatActivity
         for (Iterator<Task> it = tasks.iterator(); it.hasNext();){
             Task itg = (Task) it.next();
             if (itg == (Task) adapterView.getItemAtPosition(position)){
-                taskDAO.open();
+                TaskDAO taskDAO = new TaskDAO(this);
+                // taskDAO.open();
+
+
+                Intent intent = new Intent(MainActivity.this, EditTaskActivity.class);
+
+                // Send task data values to EditTaskActivity
+                intent.putExtra("TaskId", itg.getId());
+                intent.putExtra("TaskTitle", itg.getTitle());
+                intent.putExtra("TaskCategory", itg.getCategory());
+                intent.putExtra("TaskShareWith", itg.getShareWith());
+                intent.putExtra("TaskPrerequisite", itg.getTaskPrerequisite());
+                intent.putExtra("TaskDescription", itg.getDescription());
+
+                startActivity(intent);
+
+                /*
                 taskDAO.deleteTask(itg);
                 tasks.remove(itg);
+                */
                 adapter.notifyDataSetChanged();
             }
         }
