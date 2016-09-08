@@ -19,17 +19,25 @@ public class EditTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_bar_edit_task);
 
+        // Get data from MainActivity when i press a task
         Bundle data = getIntent().getExtras();
 
         TextView textView = (TextView) findViewById(R.id.random_text);
         textView.setText(data.getString("TaskTitle"));
 
+        // Set title name to EditText label in content_main_edit_task.xml
+        // The corresponding value is from task I pressed
         EditText title = (EditText) findViewById(R.id.input_text_title);
         title.setText(data.getString("TaskTitle"));
 
+        // Set category name to EditText label in content_main_edit_task.xml
+        // The corresponding value is from task I pressed
         EditText category = (EditText) findViewById(R.id.input_text_category);
         category.setText(data.getString("TaskCategory"));
 
+
+        // Set ShareWith value to first spinner in content_main_edit_task.xml
+        // The corresponding value is from task I pressed
         String shareWithItem = data.getString("TaskShareWith");
         Spinner shareWithSpinner = (Spinner) findViewById(R.id.spinner_compartir);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.shareWith, android.R.layout.simple_spinner_item);
@@ -40,6 +48,8 @@ public class EditTaskActivity extends AppCompatActivity {
             shareWithSpinner.setSelection(spinnerPosition);
         }
 
+        // Set ShareWith value to second spinner in content_main_edit_task.xml
+        // The corresponding value is from task I pressed
         String prerequisiteItem = data.getString("TaskPrerequisite");
         Spinner prerequisiteSpinner = (Spinner) findViewById(R.id.spinner_prerrequisito);
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.prerequisite, android.R.layout.simple_spinner_item);
@@ -50,34 +60,10 @@ public class EditTaskActivity extends AppCompatActivity {
             prerequisiteSpinner.setSelection(spinnerPosition);
         }
 
-
+        // Set description value to EditText label in content_main_edit_task.xml
+        // The corresponding value is from task I pressed
         EditText description = (EditText) findViewById(R.id.input_text_description);
         description.setText(data.getString("TaskDescription"));
-
-
-        /*
-        Spinner shareWithSpinner = (Spinner) findViewById(R.id.spinner_compartir);
-        shareWithSpinner.setSelection(arrayAdapter.getPosition("Category 2"));
-        */
-
-        /*
-        intent.putExtra("TaskShareWith", itg.getShareWith());
-        intent.putExtra("TaskPrerequisite", itg.getTaskPrerequisite());
-        intent.putExtra("TaskDescription", itg.getDescription());
-        */
-
-        /*
-        public Int retrieveAllItems(Spinner theSpinner) {
-            Adapter adapter = theSpinner.getAdapter();
-            int n = adapter.getCount();
-            List<User> users = new ArrayList<User>(n);
-            for (int i = 0; i < n; i++) {
-                User user = (User) adapter.getItem(i);
-                users.add(user);
-            }
-            return users;
-        }
-        */
 
     }
 }
