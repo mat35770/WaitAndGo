@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.security.Key;
 import java.util.ArrayList;
 
 /**
@@ -58,6 +59,22 @@ public class TaskDAO {
         long insertId = mDb.insert(TASK_TABLE_NAME,null,values);
         task.setId(insertId);
     }
+
+
+    public void updateTask (Task task, String oldTitle) {
+        ContentValues values = new ContentValues();
+        values.put(TITLE, task.getTitle());
+        values.put(CATEGORY, task.getCategory());
+        values.put(SHARE_WITH,task.getShareWith());
+        values.put(TASK_PREREQUISITE,task.getTaskPrerequisite());
+        values.put(DESCRIPTION,task.getDescription());
+        String[] whereArgs = new String[] {String.valueOf(oldTitle)};
+        /* Me must use KEY instead TITLE for sql update query. In same way, do to
+           deleteTask method
+         */
+        mDb.update(TASK_TABLE_NAME, values, TITLE + "=?", whereArgs);
+    }
+
 
     public void deleteTask (Task task){
         String[] selectionArgs = { task.getTitle()};
