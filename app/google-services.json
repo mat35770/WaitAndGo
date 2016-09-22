@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1073931964041",
+    "project_id": "firebase-waitandgo"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1073931964041:android:5ad9aa0846a70369",
+        "android_client_info": {
+          "package_name": "com.waitandgo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1073931964041-ck3efvqjelucb390p3a7foojqmd3cjqp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.waitandgo",
+            "certificate_hash": "41430FEE4C6A9119F0068E613F72299C2460758A"
+          }
+        },
+        {
+          "client_id": "1073931964041-de1u96i6o4lj8vmrric5bvhknmb2bc2q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMX-vptfJLqVBLdsJblbopAwD4UN49ao8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
