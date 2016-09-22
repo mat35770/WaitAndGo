@@ -34,6 +34,7 @@ public class AddTaskActivity extends AppCompatActivity {
         android.support.v7.widget.Toolbar toolbar_task = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar_task);
         setSupportActionBar(toolbar_task);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Put in black the progress bars
         ProgressBar progressBar7 = (ProgressBar) findViewById(R.id.progressBar7);
@@ -60,9 +61,8 @@ public class AddTaskActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.nav_back) {
-            Intent intent = new Intent(AddTaskActivity.this,MainActivity.class);
-            startActivity(intent);
+        if (id == android.R.id.home) {
+            onBackPressed();
             return true;
         }
         else if (id == R.id.nav_valid){

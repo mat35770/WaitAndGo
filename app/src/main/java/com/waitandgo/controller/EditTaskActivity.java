@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -85,6 +86,7 @@ public class EditTaskActivity extends AppCompatActivity {
         android.support.v7.widget.Toolbar toolbar_task = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar_task);
         setSupportActionBar(toolbar_task);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Put in black the progress bars
         ProgressBar progressBar7 = (ProgressBar) findViewById(R.id.progressBar7);
@@ -108,9 +110,8 @@ public class EditTaskActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.nav_back) {
-            Intent intent = new Intent(EditTaskActivity.this,MainActivity.class);
-            startActivity(intent);
+        if (id == android.R.id.home) {
+            onBackPressed();
             return true;
         }
         else if (id == R.id.nav_valid){

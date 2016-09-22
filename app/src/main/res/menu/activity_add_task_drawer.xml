@@ -8,11 +8,5 @@
         android:icon="@drawable/ic_done"
         app:showAsAction="ifRoom"
         android:visible="true" />
-    <item
-        android:id="@+id/nav_back"
-        android:title="nav_back"
-        android:icon="@drawable/ic_arrow_back"
-        app:showAsAction="ifRoom"
-        android:visible="true"
-        android:layout_gravity="left" />
+
 </menu>
