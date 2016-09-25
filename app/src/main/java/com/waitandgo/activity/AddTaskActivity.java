@@ -1,4 +1,4 @@
-package com.waitandgo.controller;
+package com.waitandgo.activity;
 
 import android.content.Intent;
 import android.graphics.Color;

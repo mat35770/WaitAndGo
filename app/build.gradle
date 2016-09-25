@@ -29,4 +29,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-plus:9.6.0'
     compile 'com.google.android.gms:play-services-auth:9.6.0'
     testCompile 'junit:junit:4.12'
+    compile 'com.google.android.gms:play-services-appindexing:9.6.0'
 }
