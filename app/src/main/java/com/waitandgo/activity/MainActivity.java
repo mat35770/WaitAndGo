@@ -39,6 +39,7 @@ import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+import com.squareup.picasso.Picasso;
 import com.waitandgo.model.MyArrayAdapter;
 import com.waitandgo.model.Task;
 import com.waitandgo.model.TaskDAO;
@@ -46,6 +47,8 @@ import com.waitandgo.model.TaskDAO;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener,
@@ -60,7 +63,7 @@ public class MainActivity extends AppCompatActivity
     TaskDAO taskDAO;
     private GoogleApiClient mGoogleApiClient;
     private TextView nameTextView, mailTextView;
-    private ImageView profileImageView;
+    private CircleImageView profileImageView;
     private MenuItem signInMenuItem;
     private ProgressDialog mProgressDialog;
 
@@ -174,19 +177,18 @@ public class MainActivity extends AppCompatActivity
                 nameTextView.setText(acct.getDisplayName());
             if (mailTextView != null)
                 mailTextView.setText(acct.getEmail());
-            /** TODO change ImageView when logged
             if(profileImageView != null){
                 if (acct.getPhotoUrl() != null){
                     Uri uri = acct.getPhotoUrl();
-                    Picasso.with(mContext)
+                    Picasso.with(this.getApplicationContext())
                             .load(uri)
                             .placeholder(android.R.drawable.sym_def_app_icon)
                             .error(android.R.drawable.sym_def_app_icon)
-                            .into(mProfileImageView);
+                            .into(profileImageView);
                 }
                 else
                     System.out.println("profile image : null");
-            }*/
+            }
             if (signInMenuItem != null)
                 signInMenuItem.setTitle(getString(R.string.desconectarse));
         }
@@ -205,6 +207,9 @@ public class MainActivity extends AppCompatActivity
                             mailTextView.setText(getString(R.string.not_connected));
                         if (signInMenuItem != null)
                             signInMenuItem.setTitle(getString(R.string.conectarse));
+                        if(profileImageView != null){
+                            profileImageView.setImageResource(R.drawable.account);
+                        }
                     }
                 });
     }
@@ -249,7 +254,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         nameTextView = (TextView) findViewById(R.id.nameTextView);
         mailTextView = (TextView) findViewById(R.id.mailTextView);
-        profileImageView = (ImageView) findViewById(R.id.profileImageView);
+        profileImageView = (CircleImageView) findViewById(R.id.profileImageView);
 
         if (id == R.id.nav_list) {
             // Handle the camera action
