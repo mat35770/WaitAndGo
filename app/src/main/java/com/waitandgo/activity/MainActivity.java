@@ -2,6 +2,8 @@ package com.waitandgo.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -35,10 +37,13 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.Person;
 import com.waitandgo.model.MyArrayAdapter;
 import com.waitandgo.model.Task;
 import com.waitandgo.model.TaskDAO;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -54,9 +59,9 @@ public class MainActivity extends AppCompatActivity
     MyArrayAdapter adapter;
     TaskDAO taskDAO;
     private GoogleApiClient mGoogleApiClient;
-    TextView nameTextView;
-    ImageView profileImageView;
-    MenuItem signInMenuItem;
+    private TextView nameTextView, mailTextView;
+    private ImageView profileImageView;
+    private MenuItem signInMenuItem;
     private ProgressDialog mProgressDialog;
 
     @Override
@@ -66,6 +71,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -98,9 +104,7 @@ public class MainActivity extends AppCompatActivity
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestScopes(new Scope(Scopes.PLUS_LOGIN))
-                //.requestIdToken(getString(R.string.server_client_id))
                 .requestEmail()
-                .requestProfile()
                 .build();
 
         // Build a GoogleApiClient with access to the Google Sign-In API and the
@@ -166,8 +170,25 @@ public class MainActivity extends AppCompatActivity
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            nameTextView.setText(acct.getDisplayName());
-            signInMenuItem.setTitle(getString(R.string.desconectarse));
+            if (nameTextView != null)
+                nameTextView.setText(acct.getDisplayName());
+            if (mailTextView != null)
+                mailTextView.setText(acct.getEmail());
+            /** TODO change ImageView when logged
+            if(profileImageView != null){
+                if (acct.getPhotoUrl() != null){
+                    Uri uri = acct.getPhotoUrl();
+                    Picasso.with(mContext)
+                            .load(uri)
+                            .placeholder(android.R.drawable.sym_def_app_icon)
+                            .error(android.R.drawable.sym_def_app_icon)
+                            .into(mProfileImageView);
+                }
+                else
+                    System.out.println("profile image : null");
+            }*/
+            if (signInMenuItem != null)
+                signInMenuItem.setTitle(getString(R.string.desconectarse));
         }
     }
 
@@ -180,8 +201,10 @@ public class MainActivity extends AppCompatActivity
                 new ResultCallback<Status>() {
                     @Override
                     public void onResult(Status status) {
-                        nameTextView.setText(getString(R.string.signed_out));
-                        signInMenuItem.setTitle(getString(R.string.conectarse));
+                        if (mailTextView != null)
+                            mailTextView.setText(getString(R.string.not_connected));
+                        if (signInMenuItem != null)
+                            signInMenuItem.setTitle(getString(R.string.conectarse));
                     }
                 });
     }
@@ -225,6 +248,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         nameTextView = (TextView) findViewById(R.id.nameTextView);
+        mailTextView = (TextView) findViewById(R.id.mailTextView);
         profileImageView = (ImageView) findViewById(R.id.profileImageView);
 
         if (id == R.id.nav_list) {

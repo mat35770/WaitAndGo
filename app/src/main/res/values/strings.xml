@@ -12,5 +12,6 @@
     <string name="conectarse">Conectarse</string>
     <string name="desconectarse">Desconectarse</string>
     <string name="loading">Loading…</string>
+    <string name="not_connected">No conectado</string>
 
 </resources>
