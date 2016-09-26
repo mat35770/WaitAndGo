@@ -11,5 +11,6 @@
     <string name="signed_out">Signed out</string>
     <string name="conectarse">Conectarse</string>
     <string name="desconectarse">Desconectarse</string>
+    <string name="loading">Loading…</string>
 
 </resources>
