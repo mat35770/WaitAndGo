@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //display tasks stored in database and active listener
+        //display tasks stored in the local database and active listener
         taskDAO = new TaskDAO(this);
         taskDAO.open();
         tasks = taskDAO.getAllTasks();
@@ -110,6 +110,8 @@ public class MainActivity extends AppCompatActivity
         listView = (ListView) findViewById(R.id.listViewTask);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
+        //Display Sync status of SQLite DB
+        Toast.makeText(getApplicationContext(), taskDAO.getSyncStatus(), Toast.LENGTH_LONG).show();
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -249,6 +251,8 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
+            //Sync SQLite DB data to remote MySQL DB
+            syncSQLiteMySQLDB();
             return true;
         }
 
@@ -374,14 +378,17 @@ public class MainActivity extends AppCompatActivity
         tasks = taskDAO.getAllTasks();
         if(tasks.size() != 0){
             if (taskDAO.dbSyncCount() != 0){
-                mProgressDialog.show();
+                this.showProgressDialog();
                 params.put("tasksJSON", taskDAO.composeTaskJSONfromSQLite());
-                client.post("http://192.168.2.4:9000/waitandgo/insert_tasks.php",params,
+                //TODO : change the address
+                client.post("http://localhost/waitandgo/insert_tasks.php",params,
                         new AsyncHttpResponseHandler(){
                     @Override
                     public void onSuccess(String response){
                         System.out.println(response);
-                        mProgressDialog.hide();
+                        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                            mProgressDialog.hide();
+                        }
                         try{
                             JSONArray jsonArray = new JSONArray(response);
                             System.out.println(jsonArray.length());
@@ -401,7 +408,9 @@ public class MainActivity extends AppCompatActivity
 
                     @Override
                     public void onFailure(int statusCode, Throwable error, String content){
-                        mProgressDialog.hide();
+                        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                            mProgressDialog.hide();
+                        }
                         if(statusCode == 404){
                             Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
                         }else if(statusCode == 500){

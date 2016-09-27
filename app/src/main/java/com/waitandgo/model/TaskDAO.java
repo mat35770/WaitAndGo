@@ -124,10 +124,25 @@ public class TaskDAO {
                 wordList.add(map);
             } while (cursor.moveToNext());
         }
-        this.close();
+        //this.close();
+        cursor.close();
         Gson gson = new GsonBuilder().create();
         //Use GSON to serialize Array List to JSON
         return gson.toJson(wordList);
+    }
+
+    /**
+     * Get Sync status of SQLite
+     * @return
+     */
+    public String getSyncStatus(){
+        String msg = null;
+        if(this.dbSyncCount() == 0){
+            msg = "SQLite and Remote MySQL DBs are in Sync!";
+        }else{
+            msg = "DB Sync needed\n";
+        }
+        return msg;
     }
 
     /**
@@ -141,7 +156,7 @@ public class TaskDAO {
         //SQLiteDatabase database = this.getWritableDatabase();
         Cursor cursor = mDb.rawQuery(selectQuery, null);
         count = cursor.getCount();
-        this.close();
+        //this.close();
         return count;
     }
 
@@ -156,7 +171,7 @@ public class TaskDAO {
         String updateQuery = "Update " + TASK_TABLE_NAME+" set " +UPDATE_STATUS+" = '"+ status +"' where "+KEY+"="+"'"+ id +"'";
         Log.d("query",updateQuery);
         mDb.execSQL(updateQuery);
-        this.close();
+        //this.close();
     }
 
 }
