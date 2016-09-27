@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mathieu.waitandgo.R;
 import com.google.android.gms.appindexing.Action;
@@ -39,10 +40,17 @@ import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
 import com.waitandgo.model.MyArrayAdapter;
 import com.waitandgo.model.Task;
 import com.waitandgo.model.TaskDAO;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -240,7 +248,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_refresh) {
             return true;
         }
 
@@ -356,6 +364,58 @@ public class MainActivity extends AppCompatActivity
     private void hideProgressDialog() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.hide();
+        }
+    }
+
+    public void syncSQLiteMySQLDB(){
+        //Create AsycHttpClient object
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        tasks = taskDAO.getAllTasks();
+        if(tasks.size() != 0){
+            if (taskDAO.dbSyncCount() != 0){
+                mProgressDialog.show();
+                params.put("tasksJSON", taskDAO.composeTaskJSONfromSQLite());
+                client.post("http://192.168.2.4:9000/waitandgo/insert_tasks.php",params,
+                        new AsyncHttpResponseHandler(){
+                    @Override
+                    public void onSuccess(String response){
+                        System.out.println(response);
+                        mProgressDialog.hide();
+                        try{
+                            JSONArray jsonArray = new JSONArray(response);
+                            System.out.println(jsonArray.length());
+                            for(int i=0; i< jsonArray.length(); i++){
+                                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                                System.out.println(jsonObject.get("id"));
+                                System.out.println(jsonObject.get("status"));
+                                taskDAO.updateSyncStatus(jsonObject.get("id").toString(),
+                                        jsonObject.get("status").toString());
+                            }
+                            Toast.makeText(getApplicationContext(), "DB Sync completed", Toast.LENGTH_LONG).show();
+                        } catch (JSONException e){
+                            Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Throwable error, String content){
+                        mProgressDialog.hide();
+                        if(statusCode == 404){
+                            Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
+                        }else if(statusCode == 500){
+                            Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
+                        }else{
+                            Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }else{
+                Toast.makeText(getApplicationContext(), "SQLite and Remote MySQL DBs are in Sync!", Toast.LENGTH_LONG).show();
+            }
+        }else{
+            Toast.makeText(getApplicationContext(), "No data in SQLite DB, please do enter User name to perform Sync action", Toast.LENGTH_LONG).show();
         }
     }
 }

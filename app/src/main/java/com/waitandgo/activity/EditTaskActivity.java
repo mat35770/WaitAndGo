@@ -133,7 +133,7 @@ public class EditTaskActivity extends AppCompatActivity {
             else{
                 taskDAO = new TaskDAO(this);
                 taskDAO.open();
-                Task task = new Task(title,category,shareWith,prerequisite,description);
+                Task task = new Task(title,category,shareWith,prerequisite,description,"no");
 
                 // Delete data and oldTitle when we solve id problem
                 Bundle data = getIntent().getExtras();

@@ -87,7 +87,7 @@ public class AddTaskActivity extends AppCompatActivity {
             else{
                 taskDAO = new TaskDAO(this);
                 taskDAO.open();
-                Task task = new Task(title,category,shareWith,prerequisite,description);
+                Task task = new Task(title,category,shareWith,prerequisite,description,"no");
                 taskDAO.createTask(task);
                 Intent intent = new Intent(AddTaskActivity.this,MainActivity.class);
                 startActivity(intent);
