@@ -378,14 +378,16 @@ public class MainActivity extends AppCompatActivity
         tasks = taskDAO.getAllTasks();
         if(tasks.size() != 0){
             if (taskDAO.dbSyncCount() != 0){
+                Log.d(TAG, "tasks to sync : "+taskDAO.dbSyncCount());
                 this.showProgressDialog();
                 params.put("tasksJSON", taskDAO.composeTaskJSONfromSQLite());
                 //TODO : change the address
-                client.post("http://localhost/waitandgo/insert_tasks.php",params,
+                client.post("http://192.168.1.116/waitandgo/insert_tasks.php",params,
                         new AsyncHttpResponseHandler(){
                     @Override
                     public void onSuccess(String response){
                         System.out.println(response);
+                        Log.d(TAG," response : " + response);
                         if (mProgressDialog != null && mProgressDialog.isShowing()) {
                             mProgressDialog.hide();
                         }
@@ -416,6 +418,7 @@ public class MainActivity extends AppCompatActivity
                         }else if(statusCode == 500){
                             Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
                         }else{
+                            Log.d(TAG,"onFailure : " + String.valueOf(statusCode) + " error : " +error +" content : " +content );
                             Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]", Toast.LENGTH_LONG).show();
                         }
                     }
