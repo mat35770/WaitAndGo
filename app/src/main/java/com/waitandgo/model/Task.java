@@ -12,6 +12,7 @@ public class Task {
     private String shareWith;
     private String taskPrerequisite;
     private String description;
+    private String updateStatus;
 
     /**
      * Builder of an object task
@@ -21,12 +22,13 @@ public class Task {
      * @param taskPrerequisite Task prerequisite
      */
     public Task(String title, String category, String shareWith, String taskPrerequisite,
-                String description){
+                String description, String updateStatus){
         this.title=title;
         this.category=category;
         this.shareWith=shareWith;
         this.taskPrerequisite=taskPrerequisite;
         this.description=description;
+        this.updateStatus=updateStatus;
     }
 
     public long getId() {
@@ -76,6 +78,9 @@ public class Task {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getUpdateStatus() { return updateStatus; }
+    public void setUpdateStatus(String updateStatus) {this.updateStatus = updateStatus; }
 
     public String toString(){
         return this.getTitle();

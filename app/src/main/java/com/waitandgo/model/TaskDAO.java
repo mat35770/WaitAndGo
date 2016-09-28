@@ -5,9 +5,15 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
-import java.security.Key;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Mathieu on 30/08/2016.
@@ -21,14 +27,16 @@ public class TaskDAO {
     public static final String SHARE_WITH = "shareWith";
     public static final String TASK_PREREQUISITE = "taskPrerequisite";
     public static final String DESCRIPTION = "description";
+    public static final String UPDATE_STATUS = "updateStatus";
 
     public static final String TASK_TABLE_CREATE = "CREATE TABLE " + TASK_TABLE_NAME + "(" + KEY +
             " INTEGER PRIMARY KEY AUTOINCREMENT, " + TITLE + " TEXT, " + CATEGORY + " TEXT, " +
-            SHARE_WITH + " TEXT, " + TASK_PREREQUISITE + " TEXT, " + DESCRIPTION + " TEXT);";
+            SHARE_WITH + " TEXT, " + TASK_PREREQUISITE + " TEXT, " + DESCRIPTION + " TEXT, " +
+            UPDATE_STATUS + " TEXT );";
 
     public static final String TASK_TABLE_DROP = "DROP TABLE IF EXISTS " + TASK_TABLE_NAME + ";";
 
-    private String[] allColumns = {KEY,TITLE,CATEGORY,SHARE_WITH,TASK_PREREQUISITE,DESCRIPTION};
+    private String[] allColumns = {KEY,TITLE,CATEGORY,SHARE_WITH,TASK_PREREQUISITE,DESCRIPTION,UPDATE_STATUS};
 
     protected DBHelper dBHelper = null;
     protected SQLiteDatabase mDb = null;
@@ -56,6 +64,7 @@ public class TaskDAO {
         values.put(SHARE_WITH,task.getShareWith());
         values.put(TASK_PREREQUISITE,task.getTaskPrerequisite());
         values.put(DESCRIPTION,task.getDescription());
+        values.put(UPDATE_STATUS,task.getUpdateStatus());
         long insertId = mDb.insert(TASK_TABLE_NAME,null,values);
         task.setId(insertId);
     }
@@ -87,7 +96,7 @@ public class TaskDAO {
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Task task = new Task(cursor.getString(1), cursor.getString(2),
-                    cursor.getString(3), cursor.getString(4), cursor.getString(5));
+                    cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6));
             task.setId(cursor.getInt(0));
             tasks.add(task);
             cursor.moveToNext();
@@ -95,4 +104,74 @@ public class TaskDAO {
         cursor.close();
         return tasks;
     }
+
+
+    /**
+     * Compose JSON out of SQLite records
+     *
+     */
+    public String composeTaskJSONfromSQLite(){
+        ArrayList<HashMap<String, String>> wordList = new ArrayList<HashMap<String, String>>();
+        String selectQuery = "SELECT * FROM " +TASK_TABLE_NAME+" WHERE "+UPDATE_STATUS+" = '"+"no"+"'";
+        this.open();
+        //mDb = dBHelper.getWritableDatabase();
+        Cursor cursor = mDb.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put(KEY, cursor.getString(0));
+                map.put(TITLE, cursor.getString(1));
+                wordList.add(map);
+            } while (cursor.moveToNext());
+        }
+        //this.close();
+        cursor.close();
+        Gson gson = new GsonBuilder().create();
+        //Use GSON to serialize Array List to JSON
+        return gson.toJson(wordList);
+    }
+
+    /**
+     * Get Sync status of SQLite
+     * @return
+     */
+    public String getSyncStatus(){
+        String msg = null;
+        if(this.dbSyncCount() == 0){
+            msg = "SQLite and Remote MySQL DBs are in Sync!";
+        }else{
+            msg = "DB Sync needed\n";
+        }
+        return msg;
+    }
+
+    /**
+     * Get SQLite records that are yet to be Synced
+     * @return
+     */
+    public int dbSyncCount(){
+        int count = 0;
+        String selectQuery = "SELECT  * FROM "+TASK_TABLE_NAME+ " where " +UPDATE_STATUS+" = '"+"no"+"'";
+        this.open();
+        //SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = mDb.rawQuery(selectQuery, null);
+        count = cursor.getCount();
+        //this.close();
+        return count;
+    }
+
+    /**
+     * Update Sync status against each User ID
+     * @param id
+     * @param status
+     */
+    public void updateSyncStatus(String id, String status){
+        //SQLiteDatabase database = this.getWritableDatabase();
+        this.open();
+        String updateQuery = "Update " + TASK_TABLE_NAME+" set " +UPDATE_STATUS+" = '"+ status +"' where "+KEY+"="+"'"+ id +"'";
+        Log.d("query",updateQuery);
+        mDb.execSQL(updateQuery);
+        //this.close();
+    }
+
 }
