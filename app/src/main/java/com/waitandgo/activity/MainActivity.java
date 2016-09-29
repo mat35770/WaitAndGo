@@ -381,8 +381,8 @@ public class MainActivity extends AppCompatActivity
                 Log.d(TAG, "tasks to sync : "+taskDAO.dbSyncCount());
                 this.showProgressDialog();
                 params.put("tasksJSON", taskDAO.composeTaskJSONfromSQLite());
-                //TODO : change the address
-                client.post("http://192.168.1.116/waitandgo/insert_tasks.php",params,
+                //TODO : change the address kdp : 192.168.1.116
+                client.post("http://10.112.12.199/waitandgo/insert_tasks.php",params,
                         new AsyncHttpResponseHandler(){
                     @Override
                     public void onSuccess(String response){

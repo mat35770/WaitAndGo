@@ -121,6 +121,12 @@ public class TaskDAO {
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put(KEY, cursor.getString(0));
                 map.put(TITLE, cursor.getString(1));
+                if (cursor.getString(2) != null){
+                    map.put(CATEGORY, cursor.getString(2));
+                }
+                if (cursor.getString(3) != null) {
+                    map.put(DESCRIPTION, cursor.getString(3));
+                }
                 wordList.add(map);
             } while (cursor.moveToNext());
         }
