@@ -109,6 +109,7 @@
             android:id="@+id/delete_task_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Eliminar tarea"/>
+            android:text="Eliminar tarea"
+            android:onClick="deleteTask"/>
     </LinearLayout>
 </RelativeLayout>

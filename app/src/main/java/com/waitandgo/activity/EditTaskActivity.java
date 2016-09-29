@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -23,6 +25,8 @@ import com.waitandgo.model.TaskDAO;
 public class EditTaskActivity extends AppCompatActivity {
 
     TaskDAO taskDAO;
+    Bundle data;
+    Task task;
 
     // Get data from MainActivity when i press a task
 
@@ -33,7 +37,7 @@ public class EditTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_bar_edit_task);
 
-        Bundle data = getIntent().getExtras();
+        data = getIntent().getExtras();
 
         /*
         TextView textView = (TextView) findViewById(R.id.random_text);
@@ -148,5 +152,37 @@ public class EditTaskActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void deleteTask (View view) {
+        Button deleteButton = (Button) findViewById(R.id.delete_task_button);
+
+        /* Codigo para eliminar una tarea de la base de datos aqui */
+
+        taskDAO = new TaskDAO(this);
+        taskDAO.open();
+
+        // Get what the user has written
+        EditText editTitle = (EditText) findViewById(R.id.input_text_title);
+        String title = editTitle.getText().toString();
+        EditText editCategory = (EditText) findViewById(R.id.input_text_category);
+        String category = editCategory.getText().toString();
+        Spinner spinnerShareWith = (Spinner) findViewById(R.id.spinner_compartir);
+        String shareWith = spinnerShareWith.getSelectedItem().toString();
+        Spinner spinnerPrerequisite = (Spinner) findViewById(R.id.spinner_prerrequisito);
+        String prerequisite = spinnerPrerequisite.getSelectedItem().toString();
+        EditText editDescription = (EditText) findViewById(R.id.input_text_description);
+        String description = editDescription.getText().toString();
+
+        /* Create task object */
+        Task task = new Task(title,category,shareWith,prerequisite,description);
+        taskDAO.deleteTask(task);       /* Delete task object */
+
+        /* Redirect to MainActivity */
+        Intent intent = new Intent(EditTaskActivity.this,MainActivity.class);
+        startActivity(intent);
+
+
+
     }
 }
