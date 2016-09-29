@@ -175,7 +175,7 @@ public class EditTaskActivity extends AppCompatActivity {
         String description = editDescription.getText().toString();
 
         /* Create task object */
-        Task task = new Task(title,category,shareWith,prerequisite,description);
+        //Task task = new Task(title,category,shareWith,prerequisite,description);
         taskDAO.deleteTask(task);       /* Delete task object */
 
         /* Redirect to MainActivity */

@@ -125,8 +125,8 @@ public class TaskDAO {
                     map.put(CATEGORY, cursor.getString(2));
                 } else{
                     map.put(CATEGORY, "null");
-                } if (cursor.getString(3) != null) {
-                    map.put(DESCRIPTION, cursor.getString(3));
+                } if (cursor.getString(5) != null) {
+                    map.put(DESCRIPTION, cursor.getString(5));
                 } else{
                     map.put(DESCRIPTION, "null");
                 }
