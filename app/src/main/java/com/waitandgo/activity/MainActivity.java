@@ -74,6 +74,8 @@ public class MainActivity extends AppCompatActivity
     private CircleImageView profileImageView;
     private MenuItem signInMenuItem;
     private ProgressDialog mProgressDialog;
+    private boolean isConnected = false;
+    GoogleSignInAccount acct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,8 +183,9 @@ public class MainActivity extends AppCompatActivity
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
+            isConnected = true;
             // Signed in successfully, show authenticated UI.
-            GoogleSignInAccount acct = result.getSignInAccount();
+            acct = result.getSignInAccount();
             if (nameTextView != null)
                 nameTextView.setText(acct.getDisplayName());
             if (mailTextView != null)
@@ -213,6 +216,7 @@ public class MainActivity extends AppCompatActivity
                 new ResultCallback<Status>() {
                     @Override
                     public void onResult(Status status) {
+                        isConnected=false;
                         if (mailTextView != null)
                             mailTextView.setText(getString(R.string.not_connected));
                         if (signInMenuItem != null)
@@ -251,8 +255,13 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
-            //Sync SQLite DB data to remote MySQL DB
-            syncSQLiteMySQLDB();
+            if (!isConnected){
+                Toast.makeText(getApplicationContext(), "Tienes que estar conectado " +
+                        "a tu cuenta google", Toast.LENGTH_LONG).show();
+            } else{
+                //Sync SQLite DB data to remote MySQL DB
+                syncSQLiteMySQLDB();
+            }
             return true;
         }
 
@@ -380,9 +389,10 @@ public class MainActivity extends AppCompatActivity
             if (taskDAO.dbSyncCount() != 0){
                 Log.d(TAG, "tasks to sync : "+taskDAO.dbSyncCount());
                 this.showProgressDialog();
-                params.put("tasksJSON", taskDAO.composeTaskJSONfromSQLite());
-                //TODO : change the address kdp : 192.168.1.116
-                client.post("http://10.112.12.199/waitandgo/insert_tasks.php",params,
+                params.put("tasksJSON", taskDAO.composeTaskJSONfromSQLite(acct.getEmail(),
+                        acct.getDisplayName()));
+                //TODO : change the address kdp : 192.168.1.116 ecole : 10.112.12.199
+                client.post("http://192.168.1.116/waitandgo/insert_tasks.php",params,
                         new AsyncHttpResponseHandler(){
                     @Override
                     public void onSuccess(String response){

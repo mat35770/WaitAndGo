@@ -110,7 +110,7 @@ public class TaskDAO {
      * Compose JSON out of SQLite records
      *
      */
-    public String composeTaskJSONfromSQLite(){
+    public String composeTaskJSONfromSQLite(String mail, String name){
         ArrayList<HashMap<String, String>> wordList = new ArrayList<HashMap<String, String>>();
         String selectQuery = "SELECT * FROM " +TASK_TABLE_NAME+" WHERE "+UPDATE_STATUS+" = '"+"no"+"'";
         this.open();
@@ -119,6 +119,8 @@ public class TaskDAO {
         if (cursor.moveToFirst()) {
             do {
                 HashMap<String, String> map = new HashMap<String, String>();
+                map.put("mail", mail);
+                map.put("name", name);
                 map.put(KEY, cursor.getString(0));
                 map.put(TITLE, cursor.getString(1));
                 if (cursor.getString(2) != null){
