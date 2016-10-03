@@ -28,15 +28,18 @@ public class TaskDAO {
     public static final String TASK_PREREQUISITE = "taskPrerequisite";
     public static final String DESCRIPTION = "description";
     public static final String UPDATE_STATUS = "updateStatus";
+    public static final String KEY_EXTERN_DB = "idExternDB";
+
 
     public static final String TASK_TABLE_CREATE = "CREATE TABLE " + TASK_TABLE_NAME + "(" + KEY +
             " INTEGER PRIMARY KEY AUTOINCREMENT, " + TITLE + " TEXT, " + CATEGORY + " TEXT, " +
             SHARE_WITH + " TEXT, " + TASK_PREREQUISITE + " TEXT, " + DESCRIPTION + " TEXT, " +
-            UPDATE_STATUS + " TEXT );";
+            UPDATE_STATUS + " TEXT, " + KEY_EXTERN_DB + " INTEGER );";
 
     public static final String TASK_TABLE_DROP = "DROP TABLE IF EXISTS " + TASK_TABLE_NAME + ";";
 
-    private String[] allColumns = {KEY,TITLE,CATEGORY,SHARE_WITH,TASK_PREREQUISITE,DESCRIPTION,UPDATE_STATUS};
+    private String[] allColumns = {KEY,TITLE,CATEGORY,SHARE_WITH,TASK_PREREQUISITE,DESCRIPTION,
+            UPDATE_STATUS,KEY_EXTERN_DB};
 
     protected DBHelper dBHelper = null;
     protected SQLiteDatabase mDb = null;
@@ -65,6 +68,7 @@ public class TaskDAO {
         values.put(TASK_PREREQUISITE,task.getTaskPrerequisite());
         values.put(DESCRIPTION,task.getDescription());
         values.put(UPDATE_STATUS,task.getUpdateStatus());
+        values.put(KEY_EXTERN_DB,task.getId());
         long insertId = mDb.insert(TASK_TABLE_NAME,null,values);
         task.setId(insertId);
     }
@@ -98,6 +102,7 @@ public class TaskDAO {
             Task task = new Task(cursor.getString(1), cursor.getString(2),
                     cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6));
             task.setId(cursor.getInt(0));
+            task.setIdExternDB(cursor.getLong(7));
             tasks.add(task);
             cursor.moveToNext();
         }
@@ -142,6 +147,16 @@ public class TaskDAO {
         return gson.toJson(wordList);
     }
 
+    public String composeMailJSON(String mail){
+        ArrayList<HashMap<String, String>> wordList = new ArrayList<HashMap<String, String>>();
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("mail", mail);
+        wordList.add(map);
+        Gson gson = new GsonBuilder().create();
+        //Use GSON to serialize Array List to JSON
+        return gson.toJson(wordList);
+    }
+
     /**
      * Get Sync status of SQLite
      * @return
@@ -176,12 +191,15 @@ public class TaskDAO {
      * @param id
      * @param status
      */
-    public void updateSyncStatus(String id, String status){
+    public void updateSyncStatus(String id, String status, String idExternDB){
         //SQLiteDatabase database = this.getWritableDatabase();
         this.open();
         String updateQuery = "Update " + TASK_TABLE_NAME+" set " +UPDATE_STATUS+" = '"+ status +"' where "+KEY+"="+"'"+ id +"'";
-        Log.d("query",updateQuery);
+        String updateQuery2 = "Update " + TASK_TABLE_NAME+" set " +KEY_EXTERN_DB+" = '"+ idExternDB +"' where "+KEY+"="+"'"+ id +"'";
+        Log.d("query update status : ",updateQuery);
+        Log.d("query update id_ext : ",updateQuery2);
         mDb.execSQL(updateQuery);
+        mDb.execSQL(updateQuery2);
         //this.close();
     }
 

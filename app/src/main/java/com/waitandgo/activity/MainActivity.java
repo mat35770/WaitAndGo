@@ -23,6 +23,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.example.mathieu.waitandgo.R;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -54,6 +56,7 @@ import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -261,6 +264,7 @@ public class MainActivity extends AppCompatActivity
             } else{
                 //Sync SQLite DB data to remote MySQL DB
                 syncSQLiteMySQLDB();
+                syncMySQLDBSQLite();
             }
             return true;
         }
@@ -408,8 +412,10 @@ public class MainActivity extends AppCompatActivity
                                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
                                 System.out.println(jsonObject.get("id"));
                                 System.out.println(jsonObject.get("status"));
+                                System.out.println(jsonObject.get("id_db_ext"));
                                 taskDAO.updateSyncStatus(jsonObject.get("id").toString(),
-                                        jsonObject.get("status").toString());
+                                        jsonObject.get("status").toString(),
+                                        jsonObject.get("id_db_ext").toString());
                             }
                             Toast.makeText(getApplicationContext(), "DB Sync completed", Toast.LENGTH_LONG).show();
                         } catch (JSONException e){
@@ -439,5 +445,108 @@ public class MainActivity extends AppCompatActivity
         }else{
             Toast.makeText(getApplicationContext(), "No data in SQLite DB, please do enter User name to perform Sync action", Toast.LENGTH_LONG).show();
         }
+    }
+
+    // Method to Sync MySQL to SQLite DB
+    public void syncMySQLDBSQLite() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        // Show ProgressBar
+        this.showProgressDialog();
+        params.put("mail", taskDAO.composeMailJSON(acct.getEmail()));
+        // Make Http call to getusers.php
+        client.post("http://192.168.1.116/waitandgo/getTasks.php", params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                System.out.println(response);
+                if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                    mProgressDialog.hide();
+                }
+                // Update SQLite DB with response sent by getusers.php
+                updateSQLite(response);
+            }
+            // When error occured
+            @Override
+            public void onFailure(int statusCode, Throwable error, String content) {
+                if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                    mProgressDialog.hide();
+                }
+                if (statusCode == 404) {
+                    Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
+                } else if (statusCode == 500) {
+                    Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    public void updateSQLite(String response){
+        ArrayList<HashMap<String, String>> usersynclist;
+        Task taskAdd;
+        usersynclist = new ArrayList<HashMap<String, String>>();
+        // Create GSON object
+        Gson gson = new GsonBuilder().create();
+        try {
+            // Extract JSON array from the response
+            JSONArray arr = new JSONArray(response);
+            System.out.println(arr.length());
+            // If no of array elements is not zero
+            if(arr.length() != 0){
+                // Loop through each array element, get JSON object which has userid and username
+                for (int i = 0; i < arr.length(); i++) {
+                    // Get JSON object
+                    JSONObject obj = (JSONObject) arr.get(i);
+                    System.out.println(obj.get("taskId"));
+                    System.out.println(obj.get("title"));
+                    System.out.println(obj.get("category"));
+                    System.out.println(obj.get("description"));
+                    taskAdd = new Task(obj.get("title").toString(), obj.get("category").toString(),
+                            "nadie", "none", obj.get("description").toString(), "yes");
+                    taskAdd.setIdExternDB(Long.parseLong(obj.get("getTaskId").toString()));
+                    taskDAO.createTask(taskAdd);
+                    // Add status for each User in Hashmap
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    map.put("id", obj.get("taskId").toString());
+                    map.put("status", "1");
+                    usersynclist.add(map);
+                }
+                // Inform Remote MySQL DB about the completion of Sync activity by passing Sync status of Users
+                updateMySQLSyncSts(gson.toJson(usersynclist));
+                // Reload the Main Activity
+                reloadActivity();
+            }
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    // Method to inform remote MySQL DB about completion of Sync activity
+    public void updateMySQLSyncSts(String json) {
+        System.out.println(json);
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("sync", json);
+        // Make Http call to updatesyncsts.php with JSON parameter which has Sync statuses of Users
+        client.post("http://192.168.1.116/waitandgo/updateSync.php", params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                Toast.makeText(getApplicationContext(), "MySQL DB has been informed about Sync activity", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Throwable error, String content) {
+                Toast.makeText(getApplicationContext(), "Error Occured", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    // Reload MainActivity
+    public void reloadActivity() {
+        Intent objIntent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(objIntent);
     }
 }

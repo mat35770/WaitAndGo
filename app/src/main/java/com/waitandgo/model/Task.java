@@ -13,6 +13,7 @@ public class Task {
     private String taskPrerequisite;
     private String description;
     private String updateStatus;
+    private long idExternDB;
 
     /**
      * Builder of an object task
@@ -29,6 +30,7 @@ public class Task {
         this.taskPrerequisite=taskPrerequisite;
         this.description=description;
         this.updateStatus=updateStatus;
+        this.idExternDB=0;
     }
 
     public long getId() {
@@ -81,6 +83,9 @@ public class Task {
 
     public String getUpdateStatus() { return updateStatus; }
     public void setUpdateStatus(String updateStatus) {this.updateStatus = updateStatus; }
+
+    public long getIdExternDB() {return idExternDB; }
+    public void setIdExternDB(long id) {this.idExternDB = id; }
 
     public String toString(){
         return this.getTitle();

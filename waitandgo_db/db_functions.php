@@ -45,13 +45,13 @@ class DB_Functions {
         if ($result===FALSE){
             $errInfos=$this->con->errorInfo();
             echo 'requete échouée'.$errInfos[2];
-            return false; 
+            return 0; 
         } 
         else{
                 $task_id = $this->con->lastInsertId();            
                 $user_id = $this->getIdUser($mail);
                 $res2 = $this->storeUserHasTask($user_id,$task_id);
-                return true;
+                return $task_id;
         }
     }
     
@@ -103,7 +103,7 @@ class DB_Functions {
     }
     
     public function getUnSyncRowCount(){
-        $req = ("SELECT * FROM task WHERE sync FALSE");
+        $req = ("SELECT * FROM task WHERE sync = 0");
         $result = $this->con->query($req);
         return $result;
     }
